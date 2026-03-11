@@ -1,0 +1,15 @@
+{
+  "name": "model",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Ernest",
+  "type": "commonjs",
+  "main": "phys.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "sass": "^1.97.3"
+  }
+}

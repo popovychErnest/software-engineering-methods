@@ -1,0 +1,57 @@
+$coor-sys-width: 4px;
+.main-container::after,
+.main-container::before {
+    content: " ";
+    background: black;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: $coor-sys-width;
+    z-index: 1000;
+}
+.main-container::after {
+    width: $coor-sys-width;
+    height: 100%;
+}
+.ui {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(var(--grid), 1fr);
+    grid-template-rows: repeat(var(--grid), 1fr);
+    & * {
+        border: 1px solid rgb(177, 177, 177);
+    }
+    .num-bar {
+        position: absolute;
+        display: grid;
+        border: none;
+        & * {
+            border: none;
+        }
+    }
+    .bottom-num-bar {
+        grid-template-rows: 1;
+        width: 100%;
+        text-align: end;
+        grid-template-columns: repeat(var(--grid), 1fr);
+        bottom: -40px;
+        & * {
+            padding-top: 8px;
+            border-right: 2px solid black;
+            padding-right: 5px;
+        }
+    }
+    .left-num-bar {
+        width: 30px; height: 100%; 
+        left: -30px;
+        text-align: center;
+        grid-template-rows: repeat(var(--grid), 1fr);
+        & * {
+            padding-top: 2px;
+            height: calc(100%);
+            margin: 0;
+            border-top: 2px solid black;
+        }
+    }
+}
