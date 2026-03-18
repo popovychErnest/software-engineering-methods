@@ -1,0 +1,32 @@
+body {
+  background: white;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  place-content: center;
+  transition: all 0.2s ease-in;
+}
+
+.main-container {
+  width: 700px;
+  height: 700px;
+  position: relative;
+  place-self: center;
+  display: flex;
+  transition: all 0.2s ease-in;
+}
+
+.windows {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 50px;
+  top: 50px;
+  width: fit-content;
+  height: fit-content;
+  font-size: 30px;
+}
+
+/*# sourceMappingURL=styles.css.map */

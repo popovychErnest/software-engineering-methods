@@ -1,0 +1,80 @@
+
+.ball, .shadow-ball {
+    position: absolute;
+    width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 10rem;  
+}
+
+.ball {
+    background-color: red;
+    z-index: 10000;
+
+
+     &:hover {
+    background-color: blue;
+    }
+}
+
+.shadow-ball {
+    background: gray;
+    transition: all .3s ease;
+    z-index: 1000;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    transform: rotateZ(90deg);
+
+    animation: transparent 0.3s infinite;
+
+    & > .angle-line {
+        width: 2px;
+        background: gray;
+        // height: 200%;
+        position: absolute;
+        place-self: center;
+        height: 30rem;
+        animation: none;
+        bottom: 20px; 
+        left:20px;
+
+        transition: all .3s ease;
+        transform-origin: bottom center;
+        
+        &::before, &::after {
+            content: "";
+            position: inherit;
+            background-color: gray;
+            width: 2px;
+            height: 1rem;
+        }
+        
+        &::before {
+            
+            left: 0px;
+            transform: rotate(45deg);
+            transform-origin: top right;
+
+        }
+           &::after {
+            
+             right: 0px;
+            transform: rotate(-45deg);
+            transform-origin: top left;
+        }
+    }
+}
+
+
+@keyframes transparent {
+    0%, 100% {
+        transform: scale(0.96);
+        opacity: 0.6;
+    }
+    50% {
+
+        transform: scale(1) ;
+        opacity: 1;
+    }
+
+}
