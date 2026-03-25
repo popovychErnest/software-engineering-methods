@@ -13,9 +13,23 @@ export function uniform_rectilinear (init_x, init_y, speed) {
     ball_data.x = init_x;
     ball_data.y = init_y;
 
+
+
+  ball_data.fly_time = null;
+
+    ball_data.max_altitude = ball_data.y;
+
+
+
+    ball_data.trajectory_length = 0;
+    ball_data.fly_distance = 0;
+
+
+        ball_data.hitted_wall = false;
+
     // ball_data.speedX = ball_data.initial_speed;
     // ball_data.speedY = ball_data.initial_speed;
 
-        ball_data.lastTime = performance.now();
+        ball_data.last_time = performance.now();
 }
 

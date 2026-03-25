@@ -1,5 +1,5 @@
 body {
-  background: white;
+  background: rgb(0, 0, 0);
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -7,6 +7,8 @@ body {
   overflow: hidden;
   place-content: center;
   transition: all 0.2s ease-in;
+  perspective: 2000px;
+  filter: invert(1);
 }
 
 .main-container {
@@ -16,6 +18,14 @@ body {
   place-self: center;
   display: flex;
   transition: all 0.2s ease-in;
+}
+.main-container .message {
+  opacity: 0;
+  font-size: 2rem;
+  position: absolute;
+  transition: all 0.3s ease;
+  z-index: 10000;
+  place-self: center;
 }
 
 .windows {

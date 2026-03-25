@@ -6,13 +6,10 @@ const main = document.querySelector(".main-container");
 ui_container.style.userSelect = "none";
 const grid_size = parseInt(ui_container.getAttribute("data-grid"));
 
-console.log(grid_size);
-console.log(typeof grid_size);
-
-
 
 for (let  i = 0;  i  < (grid_size * grid_size); i++) {
     const cell = document.createElement("div");
+    cell.className = "grid-cell";
 
     ui_container.appendChild(cell);
 }
@@ -38,8 +35,8 @@ for (let  i = grid_size;  i  >= 1; i--) {
 
     const numeration = document.createElement("p");
     numeration.style.position = "absolute"
-    numeration.style.bottom = "-50px";
-    numeration.style.left = "-20px";
+    numeration.style.bottom = "-70px";
+    numeration.style.left = "5px";
     numeration.style.border = "none";
     numeration.style.fontSize = "1.5rem"
 
@@ -64,7 +61,6 @@ const shadow_ball = main.querySelector(".shadow-ball");
 
 
 function direction_angle_line(e) {
-    console.log("e: ", e,  "\te typeof", typeof e, " e.target: ", e.target.value);
         
     // shadow_ball.style.transform = `rotate(${parseInt(e.target.value)}deg)`;
     shadow_ball.querySelector(".angle-line").style.transform = `rotate(${360-(parseInt(e.target.value)-90)}deg)`
@@ -75,7 +71,28 @@ angle_input.addEventListener("input", direction_angle_line);
 
 
 
+const switch_theme = document.querySelector(".switch-theme");
+switch_theme.addEventListener("click", () => {
+    const theme = document.body.getAttribute("data-theme");
+    document.body.setAttribute("data-theme", theme === "white" ? "black" : "white");
+    document.body.style.filter =  theme === "white" ? "invert(0)" : "invert(1)";
+    document.body.style.background = theme;
+});
 
+export const smooth_fade = () => {
+  ui_container.querySelectorAll(".ball-trail").forEach((el) => {
+    el.style.transition = "opacity 0.5s linear";
+    el.style.opacity = "1";
+
+    setTimeout(() => {
+      el.style.opacity = "0";
+    }, 10);
+
+    setTimeout(() => {
+      el.remove();
+    }, 500);
+  });
+};
  
 
 

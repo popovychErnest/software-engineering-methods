@@ -1,7 +1,8 @@
+$ball-size: 30px;
 
 .ball, .shadow-ball {
     position: absolute;
-    width: 40px;
+    width: $ball-size;
     aspect-ratio: 1/1;
     border-radius: 10rem;  
 }
@@ -9,7 +10,6 @@
 .ball {
     background-color: red;
     z-index: 10000;
-
 
      &:hover {
     background-color: blue;
@@ -30,13 +30,13 @@
     & > .angle-line {
         width: 2px;
         background: gray;
-        // height: 200%;
+        // height: 200%; 
         position: absolute;
         place-self: center;
         height: 30rem;
         animation: none;
-        bottom: 20px; 
-        left:20px;
+        bottom: calc($ball-size / 2); 
+        left: calc($ball-size / 2);
 
         transition: all .3s ease;
         transform-origin: bottom center;

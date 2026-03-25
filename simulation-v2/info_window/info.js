@@ -59,21 +59,50 @@ export function info_message(mess) {
 
   const message = document.createElement("p");
   message.textContent = `${mess}`;
+  message.className = "message";
   message.style.color = "red";
-  message.style.fontSize = "2rem";
-  message.style.position = "absolute";
   message.style.width = "100%";
-  
-  message.style.placeSelf= "center";
   message.style.textAlign= "center";
 
-
   main.appendChild(message);
+
+
+
+    main.appendChild(message);
+   setTimeout(() => {
+    message.style.opacity ="1";
+  }, 100)
+   setTimeout(() => {
+    message.style.opacity = "0";
+  }, 1300)
   setTimeout(() => {
     main.removeChild(message);
-  }, 1000)
-}
+  }, 1500)
 
+
+}
+export function parabolic_info_message(messages) {
+
+  const message = document.createElement("p");
+  message.className = "message";
+    message.innerHTML = messages.join("<br>");
+  message.style.color = "red";
+  message.style.fontSize = "2rem";
+  message.style.width = "90%";
+  message.style.top = "2rem";
+  message.style.textAlign= "right";
+
+  main.appendChild(message);
+   setTimeout(() => {
+    message.style.opacity ="1";
+  }, 100)
+   setTimeout(() => {
+    message.style.opacity = "0";
+  }, 2700)
+  setTimeout(() => {
+    main.removeChild(message);
+  }, 3000)
+}
 
 export function info_current_movement_type(mess) {
 

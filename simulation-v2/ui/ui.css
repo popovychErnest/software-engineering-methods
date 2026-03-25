@@ -1,27 +1,65 @@
-.main-container::after,
-.main-container::before {
-  content: " ";
+@charset "UTF-8";
+.ui .coor-line {
+  width: 4px;
+  height: 110%;
   background: black;
   position: absolute;
-  bottom: 0px;
-  width: 100%;
-  height: 4px;
-  z-index: 1000;
+  z-index: 1000000;
 }
-
-.main-container::after {
-  width: 4px;
-  height: 100%;
+.ui .coor-line::before {
+  left: 10px;
+  transform: rotate(180deg);
+  z-index: 10000;
+  position: absolute;
+  bottom: 0%;
+  font-size: 3rem;
 }
-
+.ui .coor-line::after {
+  content: "↓";
+  z-index: 10000;
+  position: absolute;
+  bottom: -8%;
+  left: -22px;
+  font-size: 6rem;
+}
+.ui .y-line {
+  left: 0%;
+  bottom: 0;
+  transform: rotateZ(180deg);
+}
+.ui .y-line::before {
+  content: "Y";
+}
+.ui .z-line {
+  height: 40%;
+  transform: rotateZ(45deg);
+  left: -14%;
+  bottom: -34%;
+}
+.ui .z-line::before {
+  content: "Z";
+  left: -40px;
+  transform: rotateZ(-45deg);
+  bottom: 7%;
+}
+.ui .x-line {
+  left: 55%;
+  bottom: -55%;
+  transform: rotateZ(-90deg);
+}
+.ui .x-line::before {
+  transform: rotateZ(90deg);
+  content: "X";
+}
 .ui {
   width: 100%;
   height: 100%;
   display: grid;
+  transform-style: preserve-3d;
   grid-template-columns: repeat(var(--grid), 1fr);
   grid-template-rows: repeat(var(--grid), 1fr);
 }
-.ui * {
+.ui .grid-cell {
   border: 1px solid rgb(177, 177, 177);
 }
 .ui .num-bar {

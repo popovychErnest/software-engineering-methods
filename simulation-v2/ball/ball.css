@@ -1,6 +1,6 @@
 .ball, .shadow-ball {
   position: absolute;
-  width: 40px;
+  width: 30px;
   aspect-ratio: 1/1;
   border-radius: 10rem;
 }
@@ -30,8 +30,8 @@
   place-self: center;
   height: 30rem;
   animation: none;
-  bottom: 20px;
-  left: 20px;
+  bottom: 15px;
+  left: 15px;
   transition: all 0.3s ease;
   transform-origin: bottom center;
 }

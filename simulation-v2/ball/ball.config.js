@@ -9,20 +9,28 @@ export const ball_data = {
 
 
   //   calculate speed
-  lastPosition: { x: 0, y: 0 },
-  lastTime: performance.now(),
+  last_position: { x: 0, y: 0 },
+  last_time: performance.now(),
 
-  initial_speed: 25,
+  initial_speed: 250,
   direction_angle: 0,
+
+  fly_start_time: 0,
+  fly_end_time: 0,
+  fly_time: null,
+
+  max_altitude: 0,
+
+  fly_distance: 0,
+  trajectory_length: 0,
 
   speedX: 0,
   speedY: 0,
-  speed_acceleration: 1.1,
-
-  gravity: 9.8,
-  // gravitySpeed: 0,
+  speed_acceleration: 200,
+  gravity: 98,
 
   // states
+  hitted_wall: false,
   dropped: true,
   user_moving: false,
   animation_moving: false,

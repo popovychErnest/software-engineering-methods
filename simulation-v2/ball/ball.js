@@ -13,6 +13,32 @@ const x_input = document.querySelectorAll(".coordinate-inputs input")[0];
 const y_input = document.querySelectorAll(".coordinate-inputs input")[1];
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  x_input.value = 100;
+  y_input.value = 600;
+
+  ball_data.x = x_input.value;
+  ball_data.y = y_input.value;
+
+
+  shadow_ball.style.left = `${ball_data.x}px`;  
+  shadow_ball.style.top = `${ball_data.y}px`;
+  
+  ball.style.left = `${ball_data.x}px`;
+  ball.style.top = `${ball_data.y}px`;
+
+  setTimeout(() =>{
+    ball_data.direction_angle = 45;
+
+    shadow_ball.querySelector(".angle-line").style.transform = `rotate(45deg)`
+
+  }, 200)
+
+
+  current_ball_coordinates(ball, main);
+
+})
+
 const shadow_ball = document.querySelector(".shadow-ball");
 
     shadow_ball.style.top = parseInt(ball_data.y) +"px";
@@ -60,7 +86,6 @@ function mouse_down(e) {
 function mouse_move(e) {
 
   const parentRect = main.getBoundingClientRect();
-  const ballRect = ball.getBoundingClientRect();
 
   ball_data.dropped = false;
 
@@ -85,11 +110,6 @@ function mouse_move(e) {
    shadow_ball.style.left = (ball_data.x) + "px";
   shadow_ball.style.top = (ball_data.y) + "px";
 
-
-  // console.log("BALL OFFSETX ====> ", ball.offsetLeft);
-  // console.log("BALL OFFSETY ====> ", ball.offsetTop);
-
-  // update_position(ball_data, ball, main);
   update_speed();
   current_ball_coordinates(ball, main);
 }
@@ -98,77 +118,39 @@ function mouse_up() {
   
   ball_data.dropped = true;
 
-  ball_data.animation_moving = false;
+  // ball_data.animation_moving = false;
   ball_data.user_moving = false;
 
-   ball_data.lastPosition = { x: ball_data.x, y: ball_data.y };
+   ball_data.last_position = { x: ball_data.x, y: ball_data.y };
   document.removeEventListener("mousemove", mouse_move);
 }
 // --------------------------------------------------------
 
-
-
-
-
-
 const angle_input = document.querySelector(".angle-input");
-// start_scene_button.addEventListener("click", start_moving);
 angle_input.addEventListener("input", (e) => {
   ball_data.direction_angle = parseInt(e.target.value) ?? 0;
 })
 
 const simulationLoop = () => {
   
-  
-  
+
   if (ball_data.animation_moving) {
-    // coor_inputs.forEach(item => item.disabled = true)
     const currentTime = performance.now();
+      if (ball_data.x == 0 && ball_data.y == 0) 
+      {
+        ball_data.x = x_input.value;
+      ball_data.y = y_input.value;
+      }
 
-    const dt = (currentTime - ball_data.lastTime) / 1000;
+    const dt = (currentTime - ball_data.last_time) / 1000;
     const angle = ball_data.direction_angle * Math.PI / 180;
-
-    console.log("BALL ANGLE: ", angle)
 
     movement(main, ball, dt, angle);
     ball.style.left = (ball_data.x) + "px";
     ball.style.top = (ball_data.y) + "px";
   }
-  // update_speed()
-
-  // ball.style.left = (ball_data.x) + "px";
-  // ball.style.top = (ball_data.y) + "px";
-
-
 
   // update
   requestAnimationFrame(simulationLoop);
 };
 simulationLoop();
-
-
-
-// const intertion = (ball_data, ball, main, e) => {
-//   const currentTime = performance.now();
-//   // delta
-//   const dt = currentTime - ball_data.lastTime;
-
-//   const newX = e.clientX;
-//   const newY = e.clientY;
-
-//   const velocityX = (newX - ball_data.lastPosition.x) / dt;
-//   const velocityY = (newY - ball_data.lastPosition.y) / dt;
-
-//   console.log("Velocity XX ===> ", velocityX);
-//   console.log("Velocity YY ===> ", velocityY);
-
-//   ball_data.x = newX - ball_data.offsetX;
-//   ball_data.y = newY - ball_data.offsetY;
-
-//   ball_data.speedX = velocityX * 2;
-//   ball_data.speedY = velocityY * 2;
-
-//   ball_data.lastPosition.x = newX;
-//   ball_data.lastPosition.y = newY;
-//   ball_data.lastTime = currentTime;
-// };
