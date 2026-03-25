@@ -68,8 +68,10 @@ export function movement(main, ball, dt, angle) {
       ball_data.speedY -= ball_data.gravity * -20 * dt;
       ball_data.speedX *= 0.98;
 
+      const is_on_ground = ball_data.y >= ground - 0.5;
 
       if (
+        is_on_ground &&
         Math.abs(ball_data.speedY) < ball_data.gravity / 7 &&
         Math.abs(ball_data.speedX) < ball_data.gravity / 7
       ) {
@@ -79,7 +81,7 @@ export function movement(main, ball, dt, angle) {
         ball_data.animation_moving = false;
 
         ball_data.max_altitude = y_input.value - ball_data.max_altitude;
-        parabolic_info_message([`Max altitude: ${ball_data.max_altitude.toFixed(2)} px`, `Fly time: ${ball_data.fly_time.toFixed(2)} s`,`Trajectory distance: ${(ball_data.trajectory_length - ball.offsetHeight).toFixed(2)} px`, `Fight range: ${(ball_data.fly_distance).toFixed(2)} px` ] );
+        parabolic_info_message([`Max altitude: ${ball_data.max_altitude.toFixed(2)} px`, `Fly time: ${ball_data.fly_time.toFixed(2)} s`,`Trajectory distance: ${(ball_data.trajectrory_length - ball.offsetHeight).toFixed(2)} px`, `Fight range: ${(ball_data.fly_distance).toFixed(2)} px` ] );
 
         smooth_fade();
         return;
