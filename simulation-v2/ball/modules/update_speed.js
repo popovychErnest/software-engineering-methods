@@ -21,8 +21,14 @@ export function update_speed() {
     console.log("FLY DISTANCE: ", ball_data.fly_distance)
   }
 
-// calculate speed
+  // calculate speed
   const speed = distance / dt;
+
+  if (ball_data.movement_type == "uniformly accelerated rectilinear" && speed <= 5) {
+    ball_data.speedX = 0;
+    ball_data.speedY = 0;
+    ball_data.animation_moving = false;
+  }
 
   // update last time and position
   ball_data.last_time = currentTime;
