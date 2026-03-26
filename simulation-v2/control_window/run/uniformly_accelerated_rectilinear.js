@@ -18,20 +18,17 @@ export function uniformly_accelerated_rectilinear(
 
   ball_data.x = init_x;
   ball_data.y = init_y;
-
+ 
   const angle_radians = (angle * Math.PI) / 180;
-
-
 
   ball_data.fly_time = null;
 
-    ball_data.max_altitude = ball_data.y;
+  ball_data.max_altitude = ball_data.y;
 
+  ball_data.trajectory_length = 0;
+  ball_data.fly_distance = 0;
 
-    ball_data.trajectory_length = 0;
-    ball_data.fly_distance = 0;
-
-        ball_data.hitted_wall = false;
+  ball_data.hitted_wall = false;
 
   ball_data.speedX = ball_data.initial_speed * Math.cos(angle_radians);
   ball_data.speedY = ball_data.initial_speed * Math.sin(angle_radians);
