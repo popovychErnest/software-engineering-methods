@@ -31,6 +31,11 @@ const speed_acceleration_input = document.querySelector(
 );
 
 const angle_input = document.querySelector(".angle-input");
+angle_input.addEventListener("input", (e) => {
+  ball_data.direction_angle = parseInt(e.target.value) ?? 0;
+})
+
+
 const gravity_input = document.querySelector(".gravity-input");
 
 const reset_ball_button = document.querySelector(".reset-ball");
