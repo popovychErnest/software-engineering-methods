@@ -85,7 +85,6 @@ export function movement(main, ball, dt, angle) {
 
         smooth_fade();
         return;
-      
       }
     }
 
