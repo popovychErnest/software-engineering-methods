@@ -18,7 +18,6 @@ export function update_speed() {
   if (!ball_data.hitted_wall) {
     ball_data.fly_distance += distance;
 
-    console.log("FLY DISTANCE: ", ball_data.fly_distance)
   }
 
   // calculate speed
