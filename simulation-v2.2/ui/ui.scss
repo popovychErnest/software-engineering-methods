@@ -1,0 +1,122 @@
+$coor-sys-width: 4px;
+
+.ui {
+
+    & .coor-line {
+        width: $coor-sys-width;
+        height: 110%;
+        background: black;
+        position: absolute;
+        z-index: 1000000;
+
+        &::before {
+            left: 10px;
+            transform: rotate(180deg);
+            z-index: 10000;
+            position: absolute;
+            bottom: 0%;
+            font-size: 3rem;
+        }
+
+        &::after {
+            content: "↓";
+            z-index: 10000;
+            position: absolute;
+            bottom: -8%;
+            left: -22px;
+            font-size: 6rem;
+        }
+    }
+
+    & .y-line {
+        left: 0%;
+        bottom: 0;
+        transform: rotateZ(180deg);
+        
+        &::before {
+            content: "Y";
+        }
+    }
+    & .z-line {
+        height: 40%;
+        // transform-origin: 100% 100%;
+        transform: rotateZ(45deg);
+        left: -14%;
+
+        bottom: -34%;
+
+        &::before {
+            content: "Z";
+            left: -40px;
+            transform: rotateZ(-45deg);
+            bottom: 7%;
+        }
+    }
+    
+    & .x-line {
+        left: 55%;
+        bottom: -55%;
+        transform: rotateZ(-90deg);
+        
+        &::before {
+            transform: rotateZ(90deg);
+            content: "X";
+        }
+    }
+
+    width: 100%;
+    height: 100%;
+    display: grid;
+    // border-left: 5px solid black;
+    // border-bottom: 5px solid black;
+    transform-style: preserve-3d;
+
+    grid-template-columns: repeat(var(--grid), 1fr);
+    grid-template-rows: repeat(var(--grid), 1fr);
+
+
+    & .grid-cell {
+        border: 1px solid rgb(177, 177, 177);
+    }
+
+
+    .num-bar {
+        position: absolute;
+        display: grid;
+        border: none;
+
+        & * {
+            border: none;
+        }
+    }
+
+    .bottom-num-bar {
+        grid-template-rows: 1;
+        width: 100%;
+        text-align: end;
+        grid-template-columns: repeat(var(--grid), 1fr);
+        bottom: -40px;
+
+        & * {
+            padding-top: 8px;
+            border-right: 2px solid black;
+            padding-right: 5px;
+        }
+    }
+
+    .left-num-bar {
+        width: 30px;
+        height: 100%;
+        left: -30px;
+        text-align: center;
+        grid-template-rows: repeat(var(--grid), 1fr);
+
+        & * {
+            padding-top: 2px;
+            height: calc(100%);
+            margin: 0;
+            border-top: 2px solid black;
+        }
+    }
+
+}
