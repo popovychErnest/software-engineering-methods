@@ -86,8 +86,8 @@ run_uniform_rectiliniar_button.addEventListener("click", () => {
 run_uniformly_accelerated_rectilinear_button.addEventListener("click", () => {
     smooth_fade();
 
-  const x = parseInt(x_input.value) || state.active_ball.x;
-  const y = parseInt(y_input.value) || state.active_ball.y;
+  // const x = parseInt(x_input.value) || state.active_ball.x;
+  // const y = parseInt(y_input.value) || state.active_ball.y;
   const speed = Number.isNaN(parseInt(speed_input.value))
     ? state.active_ball.initial_speed
     : parseInt(speed_input.value);
@@ -99,7 +99,11 @@ run_uniformly_accelerated_rectilinear_button.addEventListener("click", () => {
   )
     ? state.active_ball.speed_acceleration
     : parseInt(speed_acceleration_input.value * 100);
-  uniformly_accelerated_rectilinear(x, y, speed, acceleration_speed, angle);
+
+    const y = state.active_ball.dom_shadow_element.getBoundingClientRect().top - main.getBoundingClientRect().top;
+    const x = state.active_ball.dom_shadow_element.getBoundingClientRect().left - main.getBoundingClientRect().left;
+
+  uniformly_accelerated_rectilinear( speed, acceleration_speed, angle, x, y);
 });
 
 run_parabolic_motion_button.addEventListener("click", () => {

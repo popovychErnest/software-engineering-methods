@@ -23,7 +23,9 @@ export function update_speed() {
   // calculate speed
   const speed = distance / dt;
 
-  if (state.active_ball.movement_type == "uniformly accelerated rectilinear" && speed <= 5) {
+  console.log("Speeed: ", speed)
+
+  if (state.active_ball.movement_type == "uniformly accelerated rectilinear" && speed <= 15 && state.active_ball.speed_acceleration < 0) {
     state.active_ball.speedX = 0;
     state.active_ball.speedY = 0;
     state.active_ball.animation_moving = false;

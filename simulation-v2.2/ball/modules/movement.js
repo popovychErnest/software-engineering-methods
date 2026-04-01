@@ -7,7 +7,10 @@ import { smooth_fade } from "../../ui/ui.js";
 // import {  } from "../ball.config.js";
 import { update_speed } from "./update_speed.js";
 // import { update_speed } from "./update_speed.js";
-import { balls_data, state } from "../ball.config.js";
+import { balls_data } from "../ball.config.js";
+import { tail_reflection } from "../../ui/tail.js";
+
+
 
 export function movement(main, ball_dom, ball, dt, angle) {
   const ground = main.offsetHeight - ball_dom.offsetHeight;
@@ -76,6 +79,15 @@ export function movement(main, ball_dom, ball, dt, angle) {
         return;
       }
     }
+
+
+
+
+// trail
+
+
+    // tail_reflection()S
+
 
     if (ball.x <= 0) {
       ball.x = 0;

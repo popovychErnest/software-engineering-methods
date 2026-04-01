@@ -1,7 +1,9 @@
 import { state } from "../../ball/ball.config.js";
 import { info_current_movement_type } from "../../info_window/info.js";
+import { remove_tail } from "../../ui/tail.js";
 
 export function parabolic_motion( speed, angle, gravity, ball, init_x = null, init_y = null) {
+  // remove_tail();
   if (init_x && init_y) {
     ball.x = init_x;
     ball.y = init_y;
