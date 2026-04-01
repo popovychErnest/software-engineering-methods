@@ -1,4 +1,4 @@
-// import { ball_data } from "../ball/ball/.config.js";
+import { balls_data } from "../ball/ball.config.js";
 
 import { state } from "../ball/ball.config.js";
 
@@ -99,38 +99,29 @@ export const smooth_fade = () => {
 
 // trail
 
-  // import { state } from "../ball/ball.config.js";
-  // import { balls_data } from "../ball/ball.config.js";
-  
-  // const tail_units  = document.querySelectorAll(".main-container .tail > *");
-  // const tail_container = document.querySelector(".main-container .tail");
+  const tail_units  = document.querySelectorAll(".main-container .tail > *");
+  const tail_container = document.querySelector(".main-container .tail");
   
   
   
-  // export const tail_reflection = () => {
+  export const tail_reflection = () => {
   
-  //   if (balls_data.length <= 1) {
-  //       const el = document.createElement("div");
-  //       el.className = "ball-trail";
-  //       el.style.background = "gray";
-  //       el.style.position = "absolute";
-  //       el.style.top = `${state.active_ball.y + state.active_ball.dom_element.offsetWidth /2}px`;
-  //       el.style.left = `${state.active_ball.x + state.active_ball.dom_element.offsetHeight/2}px`;
-  //       el.style.borderRadius = "10rem";
-  //       el.style.width = "4px";
-  //       el.style.aspectRatio = "1/1";
-  //       tail_container.appendChild(el);
+    if (balls_data.length <= 1) {
+        const el = document.createElement("div");
+        el.className = "ball-trail";
+        el.style.background = "gray";
+        el.style.position = "absolute";
+        el.style.top = state.active_ball.y + state.active_ball.dom_element.offsetWidth /2+"px";
+        el.style.left = state.active_ball.x + state.active_ball.dom_element.offsetHeight/2 + "px";
+        el.style.borderRadius = "10rem";
+        el.style.width = "4px";
+        el.style.aspectRatio = "1/1";
+        tail_container.appendChild(el);
     
-  //       if(tail_container.querySelectorAll(".ball-trail").length > 150) {
-  //       tail_container.firstChild.remove();
-  //       }
-  //     }
-  // }
+        if(tail_container.querySelectorAll(".ball-trail").length > 150) {
+        tail_container.firstChild.remove();
+        }
+      }
+  }
   
-  // export const remove_tail = () => {
-  //     if (!tail_units || tail_units.length === 0 ) return
-  //     tail_units.forEach(element => {
-  //         element.remove();
-  //     });
-  
-  // }
+ 

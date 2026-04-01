@@ -8,7 +8,7 @@ import { smooth_fade } from "../../ui/ui.js";
 import { update_speed } from "./update_speed.js";
 // import { update_speed } from "./update_speed.js";
 import { balls_data } from "../ball.config.js";
-import { tail_reflection } from "../../ui/tail.js";
+import { tail_reflection } from "../../ui/ui.js";
 
 
 
@@ -86,7 +86,7 @@ export function movement(main, ball_dom, ball, dt, angle) {
 // trail
 
 
-    // tail_reflection()S
+    tail_reflection()
 
 
     if (ball.x <= 0) {

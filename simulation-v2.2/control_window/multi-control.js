@@ -104,7 +104,7 @@ delete_active_ball_button.addEventListener("click", () => {
       removed_ball.dom_shadow_element.remove();
     }, 1700);
   }
-  state.active_ball = null;
+  state.active_ball = balls_data[balls_data.length-1];
 });
 
 
