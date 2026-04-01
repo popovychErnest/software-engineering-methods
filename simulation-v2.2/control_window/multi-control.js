@@ -53,6 +53,7 @@ angle_input.addEventListener("input", (e) => {
 
 start_all_balls_button.addEventListener("click", () => {
   balls_data.forEach((el) => {
+    if (el.animation_moving) return
     const angle = Number.isNaN(parseInt(angle_input.value))
       ? el.direction_angle
       : parseInt(angle_input.value);
