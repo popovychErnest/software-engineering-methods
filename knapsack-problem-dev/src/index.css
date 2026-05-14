@@ -3,6 +3,6 @@
 
 @layer base {
   body {
-    @apply bg-neutral-800;
+    @apply bg-neutral-800 font-mono overflow-hidden;
   }
 }
