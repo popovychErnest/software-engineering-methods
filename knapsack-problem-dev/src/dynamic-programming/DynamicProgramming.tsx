@@ -101,7 +101,7 @@ function DynamicProgramming({
         whileHover="visible"
         initial="hidden"
         variants={animation}
-
+        
         animate={algoFinished ? "shake" : "init"}
         exit={{ opacity: 0 }}
         
