@@ -80,6 +80,7 @@ function App() {
               currentStep={currentStep}
               pauseAlgorithms={pauseAlgorithms}
               handleResetStep={() => setCurrentStep(0)}
+              bounds={boundsRef}
     
               />
           {/* <motion.section className="border-red-500  flex justify-center relative rounded-2xl px-10 mx-10 w-max-full h-full"> */}
