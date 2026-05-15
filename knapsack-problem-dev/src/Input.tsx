@@ -17,8 +17,9 @@ interface InputProps {
     // setDp: React.Dispatch<React.SetStateAction<number[][]>>;
     pauseAlgorithms: (val: "all" | AlgorithmTypes) => void;
     handleResetStep: () => void;
-    currentStep: number,
-    isAlgoRunning: boolean
+    currentStep: number;
+    isAlgoRunning: boolean;
+    bounds: React.RefObject<HTMLElement | null>;
 }
 
 export const Input = ({
@@ -30,7 +31,8 @@ export const Input = ({
     pauseAlgorithms,
     handleResetStep,
     currentStep,
-    isAlgoRunning
+    isAlgoRunning,
+    bounds
     
 }: InputProps) => {
 
@@ -142,7 +144,7 @@ export const Input = ({
     // }
 
     return (
-        <motion.div drag dragMomentum = {false} initial = {{height: "25rem"}} animate = {{height: isOpened ? "25rem" : "4rem"}} className={` z-50 right-4 top-4 overflow-hidden w-[40rem] p-6 absolute   rounded-2xl  bg-neutral-700 ${isOpened ? "h-[25rem] pt-12" : "  flex flex-row justify-center items-center"}`}>
+        <motion.div dragConstraints={bounds} drag dragMomentum = {true} initial = {{height: "25rem"}} animate = {{height: isOpened ? "25rem" : "4rem"}} className={` z-50 right-4 top-4 overflow-hidden w-[40rem] p-6 absolute   rounded-2xl  bg-neutral-700 ${isOpened ? "h-[25rem] pt-12" : "  flex flex-row justify-center items-center"}`}>
                 <button onClick={() => setIsOpened(prev => !prev)} className="text-white font-semibold text-2xl transition transform-[rotate(90deg)] absolute left-[1rem] top-4" style={{transform: isOpened ? "rotate(90deg)" : "rotate(270deg)  "}}>{">"}</button>
             <form
                  onSubmit={handleSubmit} 
