@@ -1,8 +1,18 @@
-export type AlgorithmTypes = "dp" 
+import type { IBruteForceStep, IDpStep } from "./ISteps"
+
+export type AlgorithmName = "dp" |  "bruteforce";
+export type TAlgorithmStatus = "unavailable" | "running"| "finished" | "paused";
+
 // |  "greedy"
-// |  "bruteforce"
+
+export type DpAlgorithm =  {
+        steps: IDpStep[],
+        time: number
+    };
+export type BruteForceAlgorithm = Pick<DpAlgorithm, "time"> & {maxValue: number, steps: IBruteForceStep[]} 
 
 export type IAlgorithms = {
-    [key in AlgorithmTypes]: boolean;
+    "dp": DpAlgorithm;
+    "bruteforce": BruteForceAlgorithm,
 }
 
