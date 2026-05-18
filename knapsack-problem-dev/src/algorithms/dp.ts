@@ -1,6 +1,6 @@
-import type { IStep } from "../types/IStep";
+import type { IDpStep } from "../types/ISteps";
 
-export default function knapsack(weights: number[], values: number[], W: number) {
+export default function dpKnapsack(weights: number[], values: number[], W: number) {
   // start time
   const start = performance.now();
   
@@ -8,7 +8,7 @@ export default function knapsack(weights: number[], values: number[], W: number)
   const dp = Array.from({ length: n + 1 }, () =>
     Array(W + 1).fill(0)
   );
-  const steps: IStep[] = [];   
+  const steps: IDpStep[] = [];   
 
   for (let i = 1; i <= n; i++) {
     for (let w = 0; w <= W; w++) {
@@ -32,14 +32,14 @@ export default function knapsack(weights: number[], values: number[], W: number)
         dpCurrState: structuredClone(dp)  
       })
       
-    }
+    } 
   }
   const end = performance.now();
-  const time = end - start;
+  const time = Number((end - start).toFixed(4));
   
   console.log("result: ", dp);
 
-  return {dp, steps, time};
+  return {steps, time};
 }
 
 export const getItems = (dp: number[][], weights: number[], W: number) => {
