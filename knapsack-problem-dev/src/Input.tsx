@@ -30,6 +30,8 @@ interface InputProps {
   isAlgosRunning: boolean;
   isAlgosPaused: boolean;
 
+  statuses: Record<AlgorithmName, TAlgorithmStatus>;
+
   bounds: React.RefObject<HTMLElement | null>;
 
 }
@@ -47,13 +49,15 @@ export const Input = ({
   isAlgosRunning,
   isAlgosPaused,
   
+  statuses,
+  
   // drag & drop bounds ref
   bounds,
 }: InputProps) => {
   const controls = useAnimation();
 
   const [selectedAlgorithms, setSelectedAlgorithms] =
-    useState<TSelectedAlgorithms>({ dp: false, bruteforce: false });
+    useState<TSelectedAlgorithms>({ dp: false, bruteforce: false, greedy:false, branch_bounds: false});
   const [isOpened, setIsOpened] = useState<boolean>(true);
 
   const { algorithms, setAlgorithms } = useAlgorithms();
@@ -191,6 +195,7 @@ export const Input = ({
   const handleControlSelected = (status: TAlgorithmStatus) => {
     return (Object.keys(selectedAlgorithms) as AlgorithmName[]).map(k => {
       if(selectedAlgorithms[k] !== true) return
+      if(statuses[k] === "finished") return
       controlAlgorithms(status, k)
     })
   }
@@ -202,7 +207,7 @@ export const Input = ({
       dragMomentum={true}
       initial={{ height: "25rem" }}
       animate={{ height: isOpened ? "25rem" : "4rem" }}
-      className={` z-50 right-4 top-4 overflow-hidden w-[40rem] p-6 absolute   rounded-2xl  bg-neutral-700 ${isOpened ? "h-[25rem] pt-12" : "  flex flex-row justify-center items-center"}`}
+      className={` z-50 right-4 top-4 overflow-hidden w-[40rem] p-6 absolute border border-neutral-500  rounded-2xl  bg-neutral-700 ${isOpened ? "h-[25rem] pt-12" : "  flex flex-row justify-center items-center"}`}
     >
       <button
         onClick={() => setIsOpened((prev) => !prev)}
@@ -341,11 +346,11 @@ export const Input = ({
                   viewBox="0 0 1024 1024"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <g id="SVGRepo_bgCarrier" stroke-width="6"></g>
+                  <g id="SVGRepo_bgCarrier" strokeWidth="6"></g>
                   <g
                     id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   ></g>
                   <g id="SVGRepo_iconCarrier">
                     {" "}

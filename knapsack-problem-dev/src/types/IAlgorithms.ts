@@ -1,18 +1,22 @@
-import type { IBruteForceStep, IDpStep } from "./ISteps"
+import type { IDpStep, IGreedyStep, TBranchBoundsStep, TBruteForceStep } from "./ISteps"
 
-export type AlgorithmName = "dp" |  "bruteforce";
-export type TAlgorithmStatus = "unavailable" | "running"| "finished" | "paused";
+export type AlgorithmName = "dp" |  "bruteforce" | "greedy" | "branch_bounds";
+type SpecialStatus = "restart";
+export type TAlgorithmStatus = "unavailable" | "running"| "finished" | "paused" | SpecialStatus;
 
-// |  "greedy"
+type BaseAlgorithm = {
+    time: number
+}
 
-export type DpAlgorithm =  {
-        steps: IDpStep[],
-        time: number
-    };
-export type BruteForceAlgorithm = Pick<DpAlgorithm, "time"> & {maxValue: number, steps: IBruteForceStep[]} 
+export type TDpAlgorithm = {steps: IDpStep[] } & BaseAlgorithm;
+export type TGreedyAlgorithm = {steps: IGreedyStep[], totalValue: number} & BaseAlgorithm; 
+export type TBruteForceAlgorithm = {steps: TBruteForceStep[]; maxValue: number} & BaseAlgorithm;
+export type TBranchBoundsAlgorithm = {steps: TBranchBoundsStep[], maxValue: number} & BaseAlgorithm;  
 
 export type IAlgorithms = {
-    "dp": DpAlgorithm;
-    "bruteforce": BruteForceAlgorithm,
+    "dp": TDpAlgorithm;
+    "bruteforce": TBruteForceAlgorithm;
+    "greedy": TGreedyAlgorithm;
+    "branch_bounds": TBranchBoundsAlgorithm;
 }
 

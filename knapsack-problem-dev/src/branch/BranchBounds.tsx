@@ -8,8 +8,8 @@ import {
 import { delay, motion, scale } from "framer-motion";
 import type {
   AlgorithmName,
-  TBruteForceAlgorithm,
   TAlgorithmStatus,
+  TBranchBoundsAlgorithm,
 } from "../types/IAlgorithms";
 import {
   animation,
@@ -17,12 +17,12 @@ import {
 } from "../helpers/AlgorithmShakeAnimation";
 import RunAlgoButton from "../components/RunAlgoButton";
 
-interface IBruteForce {
+interface IBranchBounds {
   weights: number[];
   values: number[];
   knapsackWeight: number;
 
-  algorithm: TBruteForceAlgorithm;
+  algorithm: TBranchBoundsAlgorithm;
 
   currentStep: number;
   setCurrentSteps: Dispatch<SetStateAction<Record<AlgorithmName, number>>>;
@@ -38,7 +38,7 @@ interface IBruteForce {
   bounds: React.RefObject<HTMLElement | null>;
 }
 
-function BruteForce({
+function BranchBounds({
   type,
 
   weights,
@@ -54,20 +54,27 @@ function BruteForce({
   controlAlgorithm,
 
   bounds,
-}: IBruteForce) {
+}: IBranchBounds) {
   const windowRef = useRef<HTMLDivElement>(null);
   const [isClosed, setIsClosed] = useState<boolean>(false);
 
   const steps = algorithm.steps;
+  const current = algorithm.steps[currentStep];
 
+  const nodeStyles = "w-12 aspect-square  border rounded-4xl";
+
+  const X_GAP = 100;
   const Y_GAP = 100;
   const NODE_W = 48;
+
+ 
+
 
   useEffect(() => {
     if (status !== "running") return;
 
     const timer = setTimeout(() => {
-      setCurrentSteps((prev) => ({ ...prev, bruteforce: currentStep + 1 }));
+      setCurrentSteps((prev) => ({ ...prev, "branch_bounds": currentStep + 1 }));
     }, 200);
 
     return () => clearTimeout(timer);
@@ -88,6 +95,12 @@ const positionedSteps = steps.map((n) => {
   const nodesInLevel = steps.filter(s => s.level === n.level);
 
   const index = nodesInLevel.findIndex(s => s.id === n.id);
+
+
+
+  // const x =
+    // index * X_GAP -
+    // (nodesInLevel.length * X_GAP) / 2;
     const x =
   (index - (nodesInLevel.length - 1) / 2) * 100;
 
@@ -108,6 +121,9 @@ const treeWidth = maxX - minX + NODE_W;
 
 const levels = new Set(steps.map(n => n.level));
 const treeHeight = levels.size * 100;
+
+
+
 
   return (
     <>
@@ -170,6 +186,7 @@ const treeHeight = levels.size * 100;
           )}
            <motion.div
            transition={{ type: "spring", duration: .3, ease: "easeInOut" }}
+          //  animate={{ opacity: !algoFinished ? [1,0] : 1}}
 
           layout
           className={` z-[-1] h-fit text-white absolute left-full group-hover/appear:opacity-100 opacity-0 transition space-y-4 bg-neutral-700 rounded-tr-2xl rounded-br-2xl border  border-neutral-500  bottom-4 py-6 pl-4  pr-4 flex flex-col`}
@@ -179,7 +196,7 @@ const treeHeight = levels.size * 100;
           <header className="text-green-300 text-3xl">Result: </header>
           <p className="whitespace-nowrap text-2xl ml-4">max value: {maxObj.value}</p>
           <p className="whitespace-nowrap text-2xl ml-4">appearance at level: {maxObj.level}</p>
-          <p className="whitespace-nowrap text-2xl ml-4">quantity of nodes: <span className="text-red-400">{steps.length-1}</span></p>
+          <p className="whitespace-nowrap text-2xl ml-4">quantity of nodes: <span className="text-green-300">{steps.length-1}</span></p>
 
           <header className="text-blue-300 mt-4 text-3xl">Time: </header>
           <p className="text-2xl ml-4">{algorithm.time} ms</p>
@@ -189,7 +206,7 @@ const treeHeight = levels.size * 100;
           <>
             <header className="text-green-300 text-2xl">Current: </header>
           <p className="ml-4">decision: 
-            <span className={` ${steps[currentStep].decision == "take" ? "text-green-300" :  "text-red-300"}`}>{
+            <span className={` ${steps[currentStep].decision == "visit" ? "text-green-300" :  "text-red-300"}`}>{
             steps[currentStep].decision}</span> </p>
             <p className="ml-4">value: {steps[currentStep].value}</p>
             <p className="ml-4">level: {steps[currentStep].level}</p>
@@ -210,8 +227,14 @@ const treeHeight = levels.size * 100;
             htmlFor="bruteforce-tree"
             className="text-white text-3xl mb-2 mt-2 font-semibold"
           >
-            Brute Force algorithm:{" "}
+            Branch and Bounce algorithm:{" "}
           </label>
+          {/* <section>{algorithm.steps}</section> */}
+
+          {/* <div className="w-12 aspect-square  border rounded-4xl bg-neutral-600 border-neutral-400"></div>
+          <div className="w-12 aspect-square bg-green-300 border rounded-4xl border-green-200"></div>
+          <div className="w-12 aspect-square bg-red-300 border rounded-4xl border-red-200"></div>
+           */}
           <section
             id="bruteforce-tree"
             style={{width: treeWidth+"px", height: treeHeight +"px"}}
@@ -220,7 +243,7 @@ const treeHeight = levels.size * 100;
               <div
   className="absolute w-full h-full  overflow-visible"
   style={{
-    left: `calc(${treeWidth > 1200 ? "100%" : "50%"} - 24px)`,
+    left: `calc(${"100%"} - 24px)`,
     top: 0
   }}
 >
@@ -251,7 +274,7 @@ const treeHeight = levels.size * 100;
 </svg>
 {positionedSteps.map((n, i) => {
 
-  const nodeBorder =  currentStep > i && (n.decision == "skip"  ? "border-red-400" : n.decision == "root" ?"border-neutral-400": "border-green-300");
+  const nodeBorder =  currentStep > i && (n.decision == "prune"  ? "border-red-400" : n.decision == "root" ?"border-neutral-400": n.decision === "visit" ? "border-green-300": "border-red-300");
 return (<motion.div
   variants={{pulse: {scale: [1.1, 1]}, static: {scale: 1}}}
 
@@ -268,24 +291,54 @@ return (<motion.div
 >
   {currentStep >= i && 
   <>
-  
-  {n.decision === "root" ? "root" : n.value}
+
+{n.decision === "prune" && (
+  <>
+    <p className="absolute   -top-5 -left-5 h-4 w-10">
+      <svg
+      className=""
+         width="50"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke= {currentStep === i ? "oklch(90.5% 0.182 98.111)" : "oklch(70.4% 0.191 22.216)"}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round">
+
+        <line x1 ="0" x2 = "30" y1 ="10" y2 = "10"></line>
+        <line x1 ="0" x2 = "5" y1 ="10" y2 = "15"></line>
+        <line x1 ="0" x2 = "5" y1 ="10" y2 = "5"></line>
+
+        </svg>
+         </p>
+
+    {currentStep > i ? (
+      <p className="w-12 h-[.2rem] absolute rotate-45 bg-red-400" />
+    ) : currentStep === i ? (
+      <p className="w-12 h-[.2rem] absolute rotate-45 bg-yellow-400 transition" />
+    ) : null}
+  </>
+)} 
+
+  {i === 0 ? "root" : n.value}
 
 {n.decision != "root" &&
    <p className={`absolute opacity-0 group-hover/node:opacity-100 group-hover/node:scale-120 scale-50 transition -right-12  text-xs `}>
-    V: {values[n.i]}<br/>
-    W: {weights[n.i]}
+    V: {values[n.i-1]}<br/>
+    W: {weights[n.i-1]}
   </p> 
  }
 
-  <p className={`absolute -bottom-6 text-sm opacity-60 ${currentStep ===  i ? "text-yellow-300" :  currentStep > i && (n.decision == "skip"  ? "text-red-400" : n.decision == "root" ?"text-neutral-400": "text-green-300")}`}>
-    {n.decision}
+  <p className={`absolute -bottom-6 text-sm opacity-60 ${currentStep ===  i ? "text-yellow-300" :  currentStep > i && (n.decision == "prune"  ? "text-red-400" : n.decision == "root" ?"text-neutral-400": n.decision === "visit" ? "text-green-300": "text-red-300")}`}>
+    {n.decision}{n.decision == "prune" && "!"}
   </p>
   </>
   }
 
 </motion.div>)})}
             </div>
+
           </section>
 
           {/* navbar with close button */}
@@ -317,4 +370,4 @@ return (<motion.div
     </>
   );
 }
-export default BruteForce;
+export default BranchBounds;

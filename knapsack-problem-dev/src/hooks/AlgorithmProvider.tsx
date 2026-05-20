@@ -11,7 +11,7 @@ export const AlgorithmsContext = createContext<AlgorithmContextType | null>(null
 
 export const AlgorithmsProvider = ({children}: {children: ReactNode}) => {
      const [algorithms, setAlgorithms] = useState<IAlgorithms>(
-        {dp:{steps: [], time: 0}, bruteforce:{maxValue: 0, time: 0, steps:[]}});
+        {dp:{steps: [], time: 0}, bruteforce:{maxValue: 0, time: 0, steps:[]}, greedy:{time: 0, steps:[], totalValue:0}, branch_bounds: {time: 0, steps:[], maxValue:0}});
 
     return (
     <AlgorithmsContext.Provider value={{algorithms, setAlgorithms}}>

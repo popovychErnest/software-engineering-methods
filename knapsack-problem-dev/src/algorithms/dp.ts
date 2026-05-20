@@ -35,9 +35,7 @@ export default function dpKnapsack(weights: number[], values: number[], W: numbe
     } 
   }
   const end = performance.now();
-  const time = Number((end - start).toFixed(4));
-  
-  console.log("result: ", dp);
+  const time = Number((end - start).toFixed(6));
 
   return {steps, time};
 }

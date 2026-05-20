@@ -20,8 +20,9 @@ export function AlgorithmSelector({selectedAlgorithms,setSelectedAlgorithms}: IA
   const getLabelName = (k: AlgorithmName) => {
     switch(k) {
         case "dp": return "Dynamic Programming";
-        // case "greedy": return "Greedy"; 
         case "bruteforce": return "Brute Force"; 
+        case "greedy": return "Greedy"; 
+        case "branch_bounds": return "Branch and Bounds"; 
     } 
   } 
   return (
