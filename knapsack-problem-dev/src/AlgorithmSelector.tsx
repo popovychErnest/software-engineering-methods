@@ -1,6 +1,5 @@
-import type { AlgorithmName } from "./types/IAlgorithms";
 import type { Dispatch, SetStateAction } from "react";
-
+import { type AlgorithmName } from "./config/algoComponents.config";
 
 type TSelectedAlgorithms = Record<AlgorithmName, boolean>;
 interface IAlgorithmSelector  {

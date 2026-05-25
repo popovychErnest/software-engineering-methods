@@ -8,10 +8,10 @@ import {
 } from "react";
 import { generateValues } from "./helpers/generateValues";
 import {
-  type AlgorithmName,
   type IAlgorithms,
   type TAlgorithmStatus,
 } from "./types/IAlgorithms";
+import {type AlgorithmName } from "./config/algoComponents.config";
 import { AlgorithmSelector } from "./AlgorithmSelector";
 import { useAlgorithms } from "./hooks/useAlgorithms";
 import { motion, steps, useAnimate, useAnimation } from "framer-motion";

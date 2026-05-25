@@ -27,16 +27,13 @@ function branchBoundsKnapsack(
     decision: decision,
   });
 
-  // 🧱 base case
   if (i === weights.length || W === 0) {
     best.value = Math.max(best.value, currentValue);
     return currentValue;
   }
 
-  // 🧠 BOUND
   const bound = getBound(i, W, currentValue, weights, values);
 
-  // ❌ PRUNE
   if (bound <= best.value) {
     steps.push({
       id: crypto.randomUUID(),
@@ -50,7 +47,6 @@ function branchBoundsKnapsack(
     return currentValue;
   }
 
-  // 🌿 TAKE
   let take = currentValue;
 
   if (weights[i] <= W) {
@@ -68,7 +64,6 @@ function branchBoundsKnapsack(
     );
   }
 
-  // 🌿 SKIP
   const skip = branchBoundsKnapsack(
     weights,
     values,

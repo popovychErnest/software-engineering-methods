@@ -2,59 +2,28 @@ import {
   useEffect,
   useRef,
   useState,
-  type Dispatch,
-  type SetStateAction,
 } from "react";
-import { delay, motion, scale } from "framer-motion";
-import type {
-  AlgorithmName,
-  TAlgorithmStatus,
-  TBranchBoundsAlgorithm,
-} from "../types/IAlgorithms";
+import { motion } from "framer-motion";
 import {
   animation,
   handleTextAppear,
 } from "../helpers/AlgorithmShakeAnimation";
 import RunAlgoButton from "../components/RunAlgoButton";
-
-interface IBranchBounds {
-  weights: number[];
-  values: number[];
-  knapsackWeight: number;
-
-  algorithm: TBranchBoundsAlgorithm;
-
-  currentStep: number;
-  setCurrentSteps: Dispatch<SetStateAction<Record<AlgorithmName, number>>>;
-
-  controlAlgorithm: (
-    state: TAlgorithmStatus,
-    param: "all" | AlgorithmName,
-  ) => void;
-
-  type: AlgorithmName;
-  status: TAlgorithmStatus;
-
-  bounds: React.RefObject<HTMLElement | null>;
-}
+import type { IAlgorithmComponentProps } from "../types/IAlgorithmComponent";
 
 function BranchBounds({
   type,
-
   weights,
   values,
   knapsackWeight,
-
   algorithm,
   currentStep,
   setCurrentSteps,
-
   status,
-
   controlAlgorithm,
 
   bounds,
-}: IBranchBounds) {
+}: IAlgorithmComponentProps<"branch_bounds">) { 
   const windowRef = useRef<HTMLDivElement>(null);
   const [isClosed, setIsClosed] = useState<boolean>(false);
 
@@ -67,26 +36,6 @@ function BranchBounds({
   const Y_GAP = 100;
   const NODE_W = 48;
 
- 
-
-
-  useEffect(() => {
-    if (status !== "running") return;
-
-    const timer = setTimeout(() => {
-      setCurrentSteps((prev) => ({ ...prev, "branch_bounds": currentStep + 1 }));
-    }, 200);
-
-    return () => clearTimeout(timer);
-  }, [steps, currentStep, status]);
-
-  useEffect(() => {
-    if (currentStep == steps.length - 1) {
-      controlAlgorithm("finished", type);
-    }
-  }, [currentStep]);
-
-
   const maxObj = steps.reduce((max, item) => {
   return item.value > max.value ? item : max;
 });
@@ -96,11 +45,6 @@ const positionedSteps = steps.map((n) => {
 
   const index = nodesInLevel.findIndex(s => s.id === n.id);
 
-
-
-  // const x =
-    // index * X_GAP -
-    // (nodesInLevel.length * X_GAP) / 2;
     const x =
   (index - (nodesInLevel.length - 1) / 2) * 100;
 
@@ -123,67 +67,10 @@ const levels = new Set(steps.map(n => n.level));
 const treeHeight = levels.size * 100;
 
 
-
-
   return (
     <>
-      {!isClosed && (
-        <motion.div
-          ref={windowRef}
-          drag
-          dragConstraints={bounds}
-          layout
-        whileDrag={{scale: 1.05, boxShadow: "0px 0px 10px 1px black"}}
-
-          whileHover="visible"
-          initial="hidden"
-          variants={animation}
-          animate={status == "finished" ? "shake" : "init"}
-          exit={{ opacity: 0 }}
-          className="flex w-fit group/result relative z-40 top-0 group/appear  flex-col h-fit  bg-neutral-700 border-neutral-500 rounded-2xl border py-4 pt-8 px-6 gap-2"
-        >
-
           <motion.header variants={handleTextAppear(windowRef)} animate = {status == "finished" ? "visible": "hidden"} className="text-white opacity-0 text-2xl">Solved!</motion.header>
-          {/* {algoFinished &&  */}
-          {status == "paused" && (
-            <motion.header
-              animate={{ opacity: [1, 0.5, 0, 0.5, 1] }}
-              transition={{
-                duration: 0.5,
-                repeat: Infinity,
-                ease: "anticipate",
-              }}
-              className="text-neutral-200 top-8 right-4 absolute text-2xl"
-            >
-              Paused...
-            </motion.header>
-          )}
-          {status == "finished" && (
-            <motion.header
-              animate={{ opacity: [1, 0.5, 0, 0.5, 1] }}
-              transition={{
-                duration: 0.5,
-                repeat: Infinity,
-                ease: "anticipate",
-              }}
-              className="text-green-300 top-8 right-4 absolute text-2xl"
-            >
-              Finished!
-            </motion.header>
-          )}
-          {status == "running" && (
-            <motion.header
-              animate={{ opacity: [1, 0.5, 0, 0.5, 1] }}
-              transition={{
-                duration: 0.5,
-                repeat: Infinity,
-                ease: "anticipate",
-              }}
-              className="text-yellow-200 top-8 right-4 absolute text-2xl"
-            >
-              Running...
-            </motion.header>
-          )}
+          
            <motion.div
            transition={{ type: "spring", duration: .3, ease: "easeInOut" }}
           //  animate={{ opacity: !algoFinished ? [1,0] : 1}}
@@ -229,12 +116,7 @@ const treeHeight = levels.size * 100;
           >
             Branch and Bounce algorithm:{" "}
           </label>
-          {/* <section>{algorithm.steps}</section> */}
-
-          {/* <div className="w-12 aspect-square  border rounded-4xl bg-neutral-600 border-neutral-400"></div>
-          <div className="w-12 aspect-square bg-green-300 border rounded-4xl border-green-200"></div>
-          <div className="w-12 aspect-square bg-red-300 border rounded-4xl border-red-200"></div>
-           */}
+        
           <section
             id="bruteforce-tree"
             style={{width: treeWidth+"px", height: treeHeight +"px"}}
@@ -340,33 +222,6 @@ return (<motion.div
             </div>
 
           </section>
-
-          {/* navbar with close button */}
-          <div className="absolute w-full h-6 top-0 left-0 flex items-center rounded-tl-2xl rounded-tr-2xl bg-neutral-500">
-            <button
-              onClick={() => {
-                setIsClosed(true);
-              }}
-              className="rounded-tr-xl absolute right-1 h-4 w-10 flex justify-center items-center  bg-red-500/20 text-red-300 border border-red-500 "
-            >
-              <svg
-                className="pointer-events-none"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-          </div>
-        </motion.div>
-      )}
     </>
   );
 }

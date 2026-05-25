@@ -1,23 +1,45 @@
-import { useRef, useState } from "react";
-import {motion } from "framer-motion";
-import { handleTextAppear } from "../helpers/AlgorithmShakeAnimation";
+import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
+import { delay, motion, scale } from "framer-motion";
+import type { TAlgorithmStatus, TDpAlgorithm } from "../types/IAlgorithms";
+import { animation, handleTextAppear } from "../helpers/AlgorithmShakeAnimation";
 import RunAlgoButton from "../components/RunAlgoButton";
-import type { IAlgorithmComponentProps } from "../types/IAlgorithmComponent";
+import { type AlgorithmName } from "../config/algoComponents.config";
+interface IDynamicProgramming {
+  weights: number[];
+  values: number[];
+  knapsackWeight: number;
+  
+  algorithm: TDpAlgorithm;
+  
+  currentStep: number;
+  setCurrentSteps: Dispatch<SetStateAction<Record<AlgorithmName, number>>>;
+
+  controlAlgorithm: (state: TAlgorithmStatus, param: "all" | AlgorithmName) => void;
+  
+  type: AlgorithmName;
+  status: TAlgorithmStatus;
+
+  bounds: React.RefObject<HTMLElement | null>;
+}
+
 function DynamicProgramming({
   
   type,
+  
   weights,
   values,
   knapsackWeight,
+
   algorithm,
   currentStep,
   setCurrentSteps,
+
   status,
+
   controlAlgorithm,
 
   bounds,
-}: IAlgorithmComponentProps<"dp">) { 
-
+}: IDynamicProgramming) { 
   const windowRef = useRef<HTMLDivElement>(null);
   const [isClosed, setIsClosed] = useState<boolean>(false);
 
@@ -40,9 +62,53 @@ function DynamicProgramming({
 
     const isNewValTaken = !!takeValue == false ? false :  takeValue > skipValue ? true : takeValue === skipValue ? false : false
   
+  
+    useEffect(() => {
+    // alert(windowRef.current?.offsetWidth);
+    currentStep == 0 && setIsClosed(false) 
+    
+  }, [currentStep])
+
+
+ useEffect(() => {
+    if (algoFinished) {
+      controlAlgorithm("finished", type)
+      return;
+    }
+
+    if(status !=="running") return;
+
+    const timer = setTimeout(() => {
+      setCurrentSteps(prev => ({...prev, dp: currentStep + 1}));
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [steps, currentStep, status]);
+
 
   return (
     <>
+    {
+      !isClosed &&
+      <motion.div
+        ref={windowRef}
+        drag
+        whileDrag={{scale: 1.05, boxShadow: "0px 0px 10px 1px black"}}
+        dragConstraints={bounds}
+        layout
+        whileHover="visible"
+        initial="hidden"
+        variants={animation}
+
+        animate={algoFinished ? "shake" : "init"}
+        exit={{ opacity: 0 }}
+        
+        className="flex w-fit group/result relative z-40 top-0 group/appear  flex-col h-fit  bg-neutral-700 border-neutral-500 rounded-2xl border py-4 pt-8 px-6 gap-2"
+      >
+        {status =="paused" && <motion.header animate= {{opacity: [1, 0.5, 0, 0.5, 1]}} transition={{duration: .5, repeat: Infinity, ease: "anticipate"}}  className="text-neutral-200 top-8 right-4 absolute text-2xl">Paused...</motion.header>}
+        {status =="finished" && <motion.header animate= {{opacity: [1, 0.5, 0, 0.5, 1]}} transition={{duration: .5, repeat: Infinity, ease: "anticipate"}}  className="text-green-300 top-8 right-4 absolute text-2xl">Finished!</motion.header>}
+        {status =="running" && <motion.header animate= {{opacity: [1, 0.5, 0, 0.5, 1]}} transition={{duration: .5, repeat: Infinity, ease: "anticipate"}}  className="text-yellow-200 top-8 right-4 absolute text-2xl">Running...</motion.header>}
+
         <motion.header variants={handleTextAppear(windowRef)} animate = {algoFinished ? "visible": "hidden"} className="text-white opacity-0 text-2xl">Solved!</motion.header>
         {/* {algoFinished &&  */}
         <motion.div
@@ -192,6 +258,9 @@ function DynamicProgramming({
             })
           )}
         </section>
-    </>)
+      </motion.div>
+}
+    </>
+  );
 }
 export default DynamicProgramming;

@@ -3,10 +3,7 @@ import bruteForceKnapsack from "../algorithms/bruteforce";
 import dpKnapsack from "../algorithms/dp";
 import greedyKnapsack from "../algorithms/greedy";
 import type { TBranchBoundsAlgorithm, TBruteForceAlgorithm, TDpAlgorithm, TGreedyAlgorithm } from "../types/IAlgorithms";
-import type { TBruteForceStep, IGreedyStep, TBranchBoundsStep } from "../types/ISteps";
-
-// function chooseAlgorithm(type: "dp", weights: number[], values: number[], capacity: number): DpAlgorithm;
-// function chooseAlgorithm(type: "bruteforce", weights: number[], values: number[], capacity: number): BruteForceAlgorithm; 
+import type { TBruteForceStep, TBranchBoundsStep } from "../types/ISteps";
 
 type AlgorithmTypeMap = {
     dp: TDpAlgorithm;

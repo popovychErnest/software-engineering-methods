@@ -1,165 +1,41 @@
 import {
-  useEffect,
   useRef,
   useState,
-  type Dispatch,
-  type SetStateAction,
 } from "react";
-import { delay, motion, scale } from "framer-motion";
-import type {
-  AlgorithmName,
-  TGreedyAlgorithm,
-  TAlgorithmStatus,
-} from "../types/IAlgorithms";
+import {motion} from "framer-motion";
 import {
-  animation,
   handleTextAppear,
 } from "../helpers/AlgorithmShakeAnimation";
 import RunAlgoButton from "../components/RunAlgoButton";
-
-interface IGreedy {
-  weights: number[];
-  values: number[];
-  knapsackWeight: number;
-
-  algorithm: TGreedyAlgorithm;
-
-  currentStep: number;
-  setCurrentSteps: Dispatch<SetStateAction<Record<AlgorithmName, number>>>;
-
-  controlAlgorithm: (
-    state: TAlgorithmStatus,
-    param: "all" | AlgorithmName,
-  ) => void;
-
-  type: AlgorithmName;
-  status: TAlgorithmStatus;
-
-  bounds: React.RefObject<HTMLElement | null>;
-}
+import type { IAlgorithmComponentProps } from "../types/IAlgorithmComponent";
 
 function Greedy({
   type,
-
   weights,
   values,
   knapsackWeight,
-
   algorithm,
   currentStep,
   setCurrentSteps,
-
   status,
-
   controlAlgorithm,
 
   bounds,
-}: IGreedy) {
+}: IAlgorithmComponentProps<"greedy">) {
   const windowRef = useRef<HTMLDivElement>(null);
   const [isClosed, setIsClosed] = useState<boolean>(false);
 
   const steps = algorithm.steps;
     const current = algorithm.steps[currentStep];
-
-  // useEffect(() => {
-  //   alert(r", typ
-  //     " LENGTH: " +
-  //       steps.length +
-  //       " CURRENT INDEX: " +
-  //       currentStep +
-  //       " CURRENT: " +
-  //       JSON.stringify(steps[currentStep]),
-  //   );
-  // }, [currentStep]);
-
-  useEffect(() => {
-    // if (algoFinished) {
-    // setCurrentStep(0);
-    // pauseAlgorithm()
-    // return;
-    // }
-
-    if (status !== "running") return;
-
-    const timer = setTimeout(() => {
-      setCurrentSteps((prev) => ({ ...prev, greedy: currentStep + 1 }));
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [steps, currentStep, status]);
-
-  useEffect(() => {
-    if (currentStep == steps.length - 1) {
-      controlAlgorithm("finished", "greedy");
-    }
-  }, [currentStep]);
-
-
-
   return (
     <>
-      {!isClosed && (
-        <motion.div
-          ref={windowRef}
-          drag
-          dragConstraints={bounds}
-          layout
-        whileDrag={{scale: 1.05, boxShadow: "0px 0px 10px 1px black"}}
-
-          whileHover="visible"
-          initial="hidden"
-          variants={animation}
-          animate={status == "finished" ? "shake" : "init"}
-          exit={{ opacity: 0 }}
-          className="flex w-fit group/result relative z-40 top-0 group/appear  flex-col h-fit  bg-neutral-700 border-neutral-500 rounded-2xl border py-4 pt-8 px-6 gap-2"
-        >
-
             <motion.header
               className="text-neutral-500 top-8 left-4 absolute"
             >
                 It is more correct to use for fractional knapsack
             </motion.header>
           <motion.header variants={handleTextAppear(windowRef)} animate = {status == "finished" ? "visible": "hidden"} className="text-white opacity-0 text-2xl">Solved!</motion.header>
-          {/* {algoFinished &&  */}
-          {status == "paused" && (
-            <motion.header
-              animate={{ opacity: [1, 0.5, 0, 0.5, 1] }}
-              transition={{
-                duration: 0.5,
-                repeat: Infinity,
-                ease: "anticipate",
-              }}
-              className="text-neutral-200 top-8 right-4 absolute text-2xl"
-            >
-              Paused...
-            </motion.header>
-          )}
-          {status == "finished" && (
-            <motion.header
-              animate={{ opacity: [1, 0.5, 0, 0.5, 1] }}
-              transition={{
-                duration: 0.5,
-                repeat: Infinity,
-                ease: "anticipate",
-              }}
-              className="text-green-300 top-8 right-4 absolute text-2xl"
-            >
-              Finished!
-            </motion.header>
-          )}
-          {status == "running" && (
-            <motion.header
-              animate={{ opacity: [1, 0.5, 0, 0.5, 1] }}
-              transition={{
-                duration: 0.5,
-                repeat: Infinity,
-                ease: "anticipate",
-              }}
-              className="text-yellow-200 top-8 right-4 absolute text-2xl"
-            >
-              Running...
-            </motion.header>
-          )}
+         
            <motion.div
            transition={{ type: "spring", duration: .3, ease: "easeInOut" }}
           //  animate={{ opacity: !algoFinished ? [1,0] : 1}}
@@ -206,17 +82,11 @@ function Greedy({
           >
             Greedy algorithm:{" "}
           </label>
-          {/* <section>{algorithm.steps}</section> */}
-
-          {/* <div className="w-12 aspect-square  border rounded-4xl bg-neutral-600 border-neutral-400"></div>
-          <div className="w-12 aspect-square bg-green-300 border rounded-4xl border-green-200"></div>
-          <div className="w-12 aspect-square bg-red-300 border rounded-4xl border-red-200"></div>
-           */}
           <section
             id="greedy-method"
             className={` text-center flex flex-row items-center w-fit  max-w-[100rem] justify-center rounded-2xl text-white  relative border-yellow-400`}
           >
-            <div className={`${windowRef.current?.offsetWidth && (windowRef.current?.offsetWidth / 16) >= 100 && "overflow-x-scroll pb-4"} flex p-4 pt-8 w-fit flex-row`}>
+            <div className={`${steps.length > 5 && "overflow-x-scroll pb-4"} flex p-4 pt-8 w-fit flex-row`}>
 
 
             {steps.map((n, i) => {
@@ -249,7 +119,7 @@ function Greedy({
                       <p className= "text-white absolute top-2 right-3 text-2xl transition">Step {i+1}</p>
                 {currentStep >= i && 
                 <>
-                  <motion.p layout transition={{ease:"easeInOut"}} className= {` ${borderColor} ${textColor} absolute -top-8 text-left right-0 rounded-tr-2xl rounded-tl-2xl border-b-0 bg-neutral-600 p-2  border transition`}>W:{n.weight} V:{n.value}</motion.p>
+                  <motion.p layout transition={{ease:"easeInOut"}} className= {` ${borderColor} ${textColor} absolute -top-8 text-left right-0 rounded-tr-2xl rounded-tl-2xl border-b-0 bg-neutral-600 p-2  border transition`}>W:{weights[i]} V:{values[i]}</motion.p>
 
                   <p className= {` ${decision === "fit" ? "text-green-300" :  "text-red-400"} absolute top-3 text-left left-3 transition`}>{decision === "partial" ? "not fit" : n.decision}<br/>{decision === "partial" && <span className="text-yellow-300 absolute left-0 top-4 text-xs"> (partial)</span>}</p>
                   {/* <p className= "text-neutral-400 absolute bottom-3 left-3 transition">Value: {n.totalValue}</p> */}
@@ -287,32 +157,7 @@ function Greedy({
             </div>
           </section>
 
-          {/* navbar with close button */}
-          <div className="absolute w-full h-6 top-0 left-0 flex items-center rounded-tl-2xl rounded-tr-2xl bg-neutral-500">
-            <button
-              onClick={() => {
-                setIsClosed(true);
-              }}
-              className="rounded-tr-xl absolute right-1 h-4 w-10 flex justify-center items-center  bg-red-500/20 text-red-300 border border-red-500 "
-            >
-              <svg
-                className="pointer-events-none"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-          </div>
-        </motion.div>
-      )}
+          
     </>
   );
 }

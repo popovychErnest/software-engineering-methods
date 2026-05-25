@@ -1,7 +1,6 @@
 import { createContext, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
-import { type IAlgorithms } from "../types/IAlgorithms";
 import { steps } from "framer-motion";
-
+import { type IAlgorithms } from "../types/IAlgorithms";
 type AlgorithmContextType = {
     algorithms: IAlgorithms,
     setAlgorithms: Dispatch<SetStateAction<IAlgorithms>>; 
